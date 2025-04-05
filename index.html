@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Movie/Series Recommender</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+</head>
+<body>
+  <header>
+    <h1>🎬 BingeBuddy</h1>
+    <div class="filters">
+      <select id="type-select">
+        <option value="movie">Movies</option>
+        <option value="tv">TV Series</option>
+      </select>
+
+      <select id="genre-select">
+        <option value="">All Genres</option>
+        <option value="28">Action</option>
+        <option value="35">Comedy</option>
+        <option value="18">Drama</option>
+        <option value="10749">Romance</option>
+        <option value="27">Horror</option>
+        <!-- Add more genres as needed -->
+      </select>
+
+      <select id="language-select">
+        <option value="en">English</option>
+        <option value="hi">Hindi</option>
+        <option value="ja">Japanese</option>
+        <option value="ko">Korean</option>
+        <option value="fr">French</option>
+        <!-- Add more languages -->
+      </select>
+
+      <button id="top-rated-button">Top Rated</button>
+      <button id="random-button">🎲 Random</button>
+    </div>
+  </header>
+
+
+
+  <main>
+    <section id="random-movie" class="highlight"></section>
+    <section id="movie-container" class="grid"></section>
+  </main>
+
+  <!-- Modal -->
+  <div id="movie-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-modal" class="close">&times;</span>
+      <img id="modal-poster" />
+      <h2 id="modal-title"></h2>
+      <p><strong>Release Date:</strong> <span id="modal-date"></span></p>
+      <p><strong>Rating:</strong> <span id="modal-rating"></span></p>
+      <p id="modal-overview"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
