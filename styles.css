@@ -185,5 +185,22 @@ h1 a:hover {
   transform: scale(1.05);
   transition: all 0.3s ease;
 }
+.movie-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 10px #00ffff33, 0 0 20px #00ffff22; /* subtle neon base glow */
+}
+.movie-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00ffffaa, 0 0 40px #00ffff66;
+}
+
+.movie-card:hover img {
+  transform: scale(1.1);
+  filter: brightness(0.4);
+}
 
 
