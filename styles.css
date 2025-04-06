@@ -178,5 +178,12 @@ h1 a {
   color: inherit;
   text-decoration: none;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
+h1 a:hover {
+  text-shadow: 0 0 10px #ffffffaa;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
+
 
