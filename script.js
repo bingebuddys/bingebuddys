@@ -65,8 +65,13 @@ function showMovieDetails(movieId, type = 'movie') {
 }
 
 function getRandomMovie() {
+  const selectedGenre = genreSelect.value;
+  const selectedLang = languageSelect.value;
+
   const randomPage = Math.floor(Math.random() * 100) + 1;
-  const RANDOM_API_URL = `https://api.themoviedb.org/3/${currentType}/popular?api_key=${API_KEY}&language=${currentLang}&page=${randomPage}`;
+  const RANDOM_API_URL = `https://api.themoviedb.org/3/discover/${currentType}?api_key=${API_KEY}&with_genres=${selectedGenre}&with_original_language=${selectedLang}&sort_by=popularity.desc&page=${randomPage}`;
+
+  randomMovieDiv.innerHTML = "<p>Loading...</p>";
 
   fetch(RANDOM_API_URL)
     .then(res => res.json())
@@ -85,7 +90,7 @@ function getRandomMovie() {
           <p>${movie.overview}</p>
         `;
       } else {
-        randomMovieDiv.innerHTML = "<p>Couldn't find a random title 😢</p>";
+        randomMovieDiv.innerHTML = "<p>No content found for the selected filters 😢</p>";
       }
     })
     .catch(err => {
@@ -93,6 +98,7 @@ function getRandomMovie() {
       randomMovieDiv.innerHTML = "<p>Error loading random content.</p>";
     });
 }
+
 
 topRatedButton.addEventListener('click', () => {
   const TOP_RATED_URL = `https://api.themoviedb.org/3/${currentType}/top_rated?api_key=${API_KEY}&language=${currentLang}`;
