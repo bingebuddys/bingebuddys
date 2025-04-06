@@ -6,20 +6,22 @@ const typeSelect = document.getElementById('type-select');
 const randomButton = document.getElementById('random-button');
 const topRatedButton = document.getElementById('top-rated-button');
 const randomMovieDiv = document.getElementById('random-movie');
+const loadMoreButton = document.getElementById('load-more-button');
 
 let currentType = 'movie';
 let currentLang = 'en';
+let currentPage = 1;
 
-function fetchMovies(genre = '', language = 'en') {
-  const API_URL = `https://api.themoviedb.org/3/discover/${currentType}?api_key=${API_KEY}&with_genres=${genre}&with_original_language=${language}&sort_by=popularity.desc`;
+function fetchMovies(genre = '', language = 'en', page = 1, append = false) {
+  const API_URL = `https://api.themoviedb.org/3/discover/${currentType}?api_key=${API_KEY}&with_genres=${genre}&with_original_language=${language}&sort_by=popularity.desc&page=${page}`;
 
-  movieContainer.innerHTML = '';
+  if (!append) movieContainer.innerHTML = '';
 
   fetch(API_URL)
     .then(res => res.json())
     .then(data => {
       const movies = data.results;
-      if (movies.length === 0) {
+      if (movies.length === 0 && !append) {
         movieContainer.innerHTML = `<p>No content found 😢</p>`;
         return;
       }
@@ -65,13 +67,8 @@ function showMovieDetails(movieId, type = 'movie') {
 }
 
 function getRandomMovie() {
-  const selectedGenre = genreSelect.value;
-  const selectedLang = languageSelect.value;
-
   const randomPage = Math.floor(Math.random() * 100) + 1;
-  const RANDOM_API_URL = `https://api.themoviedb.org/3/discover/${currentType}?api_key=${API_KEY}&with_genres=${selectedGenre}&with_original_language=${selectedLang}&sort_by=popularity.desc&page=${randomPage}`;
-
-  randomMovieDiv.innerHTML = "<p>Loading...</p>";
+  const RANDOM_API_URL = `https://api.themoviedb.org/3/discover/${currentType}?api_key=${API_KEY}&with_original_language=${currentLang}&with_genres=${genreSelect.value}&sort_by=popularity.desc&page=${randomPage}`;
 
   fetch(RANDOM_API_URL)
     .then(res => res.json())
@@ -90,7 +87,7 @@ function getRandomMovie() {
           <p>${movie.overview}</p>
         `;
       } else {
-        randomMovieDiv.innerHTML = "<p>No content found for the selected filters 😢</p>";
+        randomMovieDiv.innerHTML = "<p>Couldn't find a random title 😢</p>";
       }
     })
     .catch(err => {
@@ -99,10 +96,10 @@ function getRandomMovie() {
     });
 }
 
-
 topRatedButton.addEventListener('click', () => {
   const TOP_RATED_URL = `https://api.themoviedb.org/3/${currentType}/top_rated?api_key=${API_KEY}&language=${currentLang}`;
 
+  currentPage = 1;
   movieContainer.innerHTML = '';
   fetch(TOP_RATED_URL)
     .then(res => res.json())
@@ -140,21 +137,31 @@ topRatedButton.addEventListener('click', () => {
     });
 });
 
-// Event listeners
+// Filter events
 genreSelect.addEventListener('change', () => {
+  currentPage = 1;
   fetchMovies(genreSelect.value, languageSelect.value);
 });
 
 languageSelect.addEventListener('change', () => {
   currentLang = languageSelect.value;
+  currentPage = 1;
   fetchMovies(genreSelect.value, currentLang);
 });
 
 typeSelect.addEventListener('change', () => {
   currentType = typeSelect.value;
+  currentPage = 1;
   fetchMovies(genreSelect.value, languageSelect.value);
 });
 
+// Load more button
+loadMoreButton.addEventListener('click', () => {
+  currentPage++;
+  fetchMovies(genreSelect.value, languageSelect.value, currentPage, true);
+});
+
+// Random button
 randomButton.addEventListener('click', getRandomMovie);
 
 // Modal logic
