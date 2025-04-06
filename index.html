@@ -8,19 +8,17 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <meta name="description" content="Get personalized movie and series recommendations. Find your next binge-worthy watch with BingeBuddy!">
-<meta name="keywords" content="movies, series, recommendations, streaming, binge, BingeBuddy, random movie, top rated movies">
-<meta name="author" content="BingeBuddy">
-<meta property="og:title" content="BingeBuddy - Find Your Next Favorite Movie or Series!">
-<meta property="og:description" content="Random & Top Rated Movie/Series Recommendations.">
-<meta property="og:image" content="https://bingebuddys.github.io/bingebuddys/preview.jpg"> <!-- Replace with a real image URL -->
-<meta property="og:url" content="https://bingebuddys.github.io/bingebuddys">
-<meta name="twitter:card" content="summary_large_image">
-
-
+  <meta name="keywords" content="movies, series, recommendations, streaming, binge, BingeBuddy, random movie, top rated movies">
+  <meta name="author" content="BingeBuddy">
+  <meta property="og:title" content="BingeBuddy - Find Your Next Favorite Movie or Series!">
+  <meta property="og:description" content="Random & Top Rated Movie/Series Recommendations.">
+  <meta property="og:image" content="https://bingebuddys.github.io/bingebuddys/preview.jpg"> <!-- Replace with a real image URL -->
+  <meta property="og:url" content="https://bingebuddys.github.io/bingebuddys">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
   <header>
-<h1><a href="#" onclick="location.reload()">🎬 BingeBuddy</a></h1>
+    <h1><a href="#" onclick="location.reload()">🎬 BingeBuddy</a></h1>
     <div class="filters">
       <select id="type-select">
         <option value="movie">Movies</option>
@@ -50,13 +48,15 @@
       <button id="random-button">🎲 Random</button>
     </div>
   </header>
-	
-
-
 
   <main>
     <section id="random-movie" class="highlight"></section>
     <section id="movie-container" class="grid"></section>
+
+    <!-- Load More Button -->
+    <div class="load-more-wrapper">
+      <button id="load-more-button">Load More</button>
+    </div>
   </main>
 
   <!-- Modal -->
@@ -70,29 +70,20 @@
       <p id="modal-overview"></p>
     </div>
   </div>
-	<main>
-  <div id="movie-container" class="grid"></div>
-
-  <!-- Load More Button -->
-  <div class="load-more-wrapper">
-    <button id="load-more-button">Load More</button>
-  </div>
-</main>
-
 
   <script src="script.js"></script>
   <script type='text/javascript' src='//pl26302545.effectiveratecpm.com/95/9c/a4/959ca4f18cd95ee433d954000b171e26.js'></script>
   <script async="async" data-cfasync="false" src="//pl26302577.effectiveratecpm.com/10b2f8cd2006866726719ec53adcfe80/invoke.js"></script>
-<div id="container-10b2f8cd2006866726719ec53adcfe80"></div>
+  <div id="container-10b2f8cd2006866726719ec53adcfe80"></div>
   <script type="text/javascript">
-	atOptions = {
-		'key' : '27b3260f782ba14a79c9e37a29dca92f',
-		'format' : 'iframe',
-		'height' : 60,
-		'width' : 468,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/27b3260f782ba14a79c9e37a29dca92f/invoke.js"></script>
+    atOptions = {
+      'key' : '27b3260f782ba14a79c9e37a29dca92f',
+      'format' : 'iframe',
+      'height' : 60,
+      'width' : 468,
+      'params' : {}
+    };
+  </script>
+  <script type="text/javascript" src="//www.highperformanceformat.com/27b3260f782ba14a79c9e37a29dca92f/invoke.js"></script>
 </body>
 </html>
