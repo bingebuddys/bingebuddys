@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="google-site-verification" content="SBWo-PmZpfLn-69djuaL-wT70wCQ4Icj8kJA4rxrPe0" />
-  <title>Movie/Series Recommender</title>
+  <title>BingeBuddy - Movie/Series Recommender</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <meta name="description" content="Get personalized movie and series recommendations. Find your next binge-worthy watch with BingeBuddy!">
@@ -12,7 +12,7 @@
   <meta name="author" content="BingeBuddy">
   <meta property="og:title" content="BingeBuddy - Find Your Next Favorite Movie or Series!">
   <meta property="og:description" content="Random & Top Rated Movie/Series Recommendations.">
-  <meta property="og:image" content="https://bingebuddys.github.io/bingebuddys/preview.jpg"> <!-- Replace with a real image URL -->
+  <meta property="og:image" content="https://bingebuddys.github.io/bingebuddys/preview.jpg">
   <meta property="og:url" content="https://bingebuddys.github.io/bingebuddys">
   <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -32,16 +32,17 @@
         <option value="18">Drama</option>
         <option value="10749">Romance</option>
         <option value="27">Horror</option>
-        <!-- Add more genres as needed -->
       </select>
 
       <select id="language-select">
         <option value="en">English</option>
         <option value="hi">Hindi</option>
+        <option value="te">Telugu</option>
+        <option value="ta">Tamil</option>
+        <option value="ml">Malayalam</option>
         <option value="ja">Japanese</option>
         <option value="ko">Korean</option>
         <option value="fr">French</option>
-        <!-- Add more languages -->
       </select>
 
       <button id="top-rated-button">Top Rated</button>
@@ -52,8 +53,6 @@
   <main>
     <section id="random-movie" class="highlight"></section>
     <section id="movie-container" class="grid"></section>
-
-    <!-- Load More Button -->
     <div class="load-more-wrapper">
       <button id="load-more-button">Load More</button>
     </div>
@@ -71,7 +70,7 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <!-- Adsterra Ads -->
   <script type='text/javascript' src='//pl26302545.effectiveratecpm.com/95/9c/a4/959ca4f18cd95ee433d954000b171e26.js'></script>
   <script async="async" data-cfasync="false" src="//pl26302577.effectiveratecpm.com/10b2f8cd2006866726719ec53adcfe80/invoke.js"></script>
   <div id="container-10b2f8cd2006866726719ec53adcfe80"></div>
@@ -85,5 +84,7 @@
     };
   </script>
   <script type="text/javascript" src="//www.highperformanceformat.com/27b3260f782ba14a79c9e37a29dca92f/invoke.js"></script>
+
+  <script src="script.js"></script>
 </body>
 </html>
