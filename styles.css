@@ -1,3 +1,5 @@
+/* styles.css */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -17,10 +19,16 @@ header {
   margin-bottom: 20px;
 }
 
-h1 {
+h1 a {
   font-size: 2.5rem;
   margin-bottom: 10px;
   color: #f9fafb;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+h1 a:hover {
+  color: #60a5fa;
 }
 
 .filters {
@@ -85,6 +93,7 @@ main {
   border-radius: 10px;
   cursor: pointer;
   transition: transform 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 .movie-card img {
@@ -164,6 +173,11 @@ main {
   cursor: pointer;
 }
 
+.load-more-wrapper {
+  text-align: center;
+  margin-top: 30px;
+}
+
 @media (max-width: 600px) {
   .filters {
     flex-direction: column;
@@ -174,53 +188,3 @@ main {
     width: 100%;
   }
 }
-h1 a {
-  color: inherit;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-h1 a:hover {
-  text-shadow: 0 0 10px #ffffffaa;
-  transform: scale(1.05);
-  transition: all 0.3s ease;
-}
-.movie-card {
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 0 10px #00ffff33, 0 0 20px #00ffff22; /* subtle neon base glow */
-}
-.movie-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px #00ffffaa, 0 0 40px #00ffff66;
-}
-
-.movie-card:hover img {
-  transform: scale(1.1);
-  filter: brightness(0.4);
-}
-.load-more-wrapper {
-  text-align: center;
-  margin-top: 30px;
-}
-
-#load-more-button {
-  background-color: #2563eb;
-  color: white;
-  padding: 12px 20px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#load-more-button:hover {
-  background-color: #1e40af;
-}
-
-
-
