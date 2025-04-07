@@ -1,187 +1,157 @@
+// script.js
+
 const API_KEY = '83b13775c572df61653e5164e1aa151b';
+const BASE_URL = 'https://api.themoviedb.org/3';
+const IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
+
+let currentPage = 1;
+let currentType = 'movie';
+let currentGenre = '';
+let currentLanguage = 'en';
+
 const movieContainer = document.getElementById('movie-container');
+const randomSection = document.getElementById('random-movie');
+const topRatedButton = document.getElementById('top-rated-button');
+const randomButton = document.getElementById('random-button');
+const loadMoreButton = document.getElementById('load-more-button');
+const typeSelect = document.getElementById('type-select');
 const genreSelect = document.getElementById('genre-select');
 const languageSelect = document.getElementById('language-select');
-const typeSelect = document.getElementById('type-select');
-const randomButton = document.getElementById('random-button');
-const topRatedButton = document.getElementById('top-rated-button');
-const randomMovieDiv = document.getElementById('random-movie');
-const loadMoreButton = document.getElementById('load-more-button');
 
-let currentType = 'movie';
-let currentLang = 'en';
-let currentPage = 1;
-
-function fetchMovies(genre = '', language = 'en', page = 1, append = false) {
-  const API_URL = `https://api.themoviedb.org/3/discover/${currentType}?api_key=${API_KEY}&with_genres=${genre}&with_original_language=${language}&sort_by=popularity.desc&page=${page}`;
-
-  if (!append) movieContainer.innerHTML = '';
-
-  fetch(API_URL)
-    .then(res => res.json())
-    .then(data => {
-      const movies = data.results;
-      if (movies.length === 0 && !append) {
-        movieContainer.innerHTML = `<p>No content found 😢</p>`;
-        return;
-      }
-
-      movies.forEach(movie => {
-        const title = currentType === 'movie' ? movie.title : movie.name;
-        const overview = movie.overview || 'No overview available';
-
-        const movieCard = document.createElement('div');
-        movieCard.classList.add('movie-card');
-        movieCard.innerHTML = `
-          <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${title}" />
-          <div class="overlay">
-            <h3>${title}</h3>
-            <p>${overview.slice(0, 100)}...</p>
-          </div>
-        `;
-
-        movieCard.addEventListener('click', () => {
-          showMovieDetails(movie.id, currentType);
-        });
-
-        movieContainer.appendChild(movieCard);
-      });
-    })
-    .catch(err => console.error('Error fetching content:', err));
-}
-
-function showMovieDetails(movieId, type = 'movie') {
-  const DETAILS_URL = `https://api.themoviedb.org/3/${type}/${movieId}?api_key=${API_KEY}`;
-
-  fetch(DETAILS_URL)
-    .then(res => res.json())
-    .then(data => {
-      modalPoster.src = `https://image.tmdb.org/t/p/w500${data.poster_path}`;
-      modalTitle.textContent = data.title || data.name;
-      modalDate.textContent = data.release_date || data.first_air_date;
-      modalRating.textContent = data.vote_average;
-      modalOverview.textContent = data.overview;
-      modal.style.display = 'flex';
-    })
-    .catch(err => console.error('Error loading movie details:', err));
-}
-
-function getRandomMovie() {
-  const randomPage = Math.floor(Math.random() * 100) + 1;
-  const RANDOM_API_URL = `https://api.themoviedb.org/3/discover/${currentType}?api_key=${API_KEY}&with_original_language=${currentLang}&with_genres=${genreSelect.value}&sort_by=popularity.desc&page=${randomPage}`;
-
-  fetch(RANDOM_API_URL)
-    .then(res => res.json())
-    .then(data => {
-      const movies = data.results;
-      if (movies.length > 0) {
-        const randomIndex = Math.floor(Math.random() * movies.length);
-        const movie = movies[randomIndex];
-
-        const title = currentType === 'movie' ? movie.title : movie.name;
-
-        randomMovieDiv.innerHTML = `
-          <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${title}" />
-          <h2>${title}</h2>
-          <p><strong>⭐ Rating:</strong> ${movie.vote_average}</p>
-          <p>${movie.overview}</p>
-        `;
-      } else {
-        randomMovieDiv.innerHTML = "<p>Couldn't find a random title 😢</p>";
-      }
-    })
-    .catch(err => {
-      console.error('Random fetch error:', err);
-      randomMovieDiv.innerHTML = "<p>Error loading random content.</p>";
-    });
-}
-
-topRatedButton.addEventListener('click', () => {
-  const TOP_RATED_URL = `https://api.themoviedb.org/3/${currentType}/top_rated?api_key=${API_KEY}&language=${currentLang}`;
-
-  currentPage = 1;
-  movieContainer.innerHTML = '';
-  fetch(TOP_RATED_URL)
-    .then(res => res.json())
-    .then(data => {
-      const movies = data.results;
-      if (movies.length === 0) {
-        movieContainer.innerHTML = `<p>No top-rated content found 😢</p>`;
-        return;
-      }
-
-      movies.forEach(movie => {
-        const title = currentType === 'movie' ? movie.title : movie.name;
-        const overview = movie.overview || 'No overview available';
-
-        const movieCard = document.createElement('div');
-        movieCard.classList.add('movie-card');
-        movieCard.innerHTML = `
-          <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${title}" />
-          <div class="overlay">
-            <h3>${title}</h3>
-            <p>${overview.slice(0, 100)}...</p>
-          </div>
-        `;
-
-        movieCard.addEventListener('click', () => {
-          showMovieDetails(movie.id, currentType);
-        });
-
-        movieContainer.appendChild(movieCard);
-      });
-    })
-    .catch(err => {
-      console.error('Top Rated Error:', err);
-      movieContainer.innerHTML = `<p>Error fetching top-rated content.</p>`;
-    });
-});
-
-// Filter events
-genreSelect.addEventListener('change', () => {
-  currentPage = 1;
-  fetchMovies(genreSelect.value, languageSelect.value);
-});
-
-languageSelect.addEventListener('change', () => {
-  currentLang = languageSelect.value;
-  currentPage = 1;
-  fetchMovies(genreSelect.value, currentLang);
-});
-
-typeSelect.addEventListener('change', () => {
-  currentType = typeSelect.value;
-  currentPage = 1;
-  fetchMovies(genreSelect.value, languageSelect.value);
-});
-
-// Load more button
-loadMoreButton.addEventListener('click', () => {
-  currentPage++;
-  fetchMovies(genreSelect.value, languageSelect.value, currentPage, true);
-});
-
-// Random button
-randomButton.addEventListener('click', getRandomMovie);
-
-// Modal logic
 const modal = document.getElementById('movie-modal');
 const closeModal = document.getElementById('close-modal');
-const modalPoster = document.getElementById('modal-poster');
-const modalTitle = document.getElementById('modal-title');
-const modalDate = document.getElementById('modal-date');
-const modalRating = document.getElementById('modal-rating');
-const modalOverview = document.getElementById('modal-overview');
+
+function getURL(path, params = {}) {
+  const url = new URL(`${BASE_URL}${path}`);
+  url.searchParams.set('api_key', API_KEY);
+  Object.keys(params).forEach(key => url.searchParams.set(key, params[key]));
+  return url.toString();
+}
+
+function createMovieCard(movie) {
+  const card = document.createElement('div');
+  card.classList.add('movie-card');
+
+  const img = document.createElement('img');
+  img.src = IMAGE_BASE + movie.poster_path;
+  card.appendChild(img);
+
+  const overlay = document.createElement('div');
+  overlay.classList.add('overlay');
+  overlay.innerHTML = `
+    <h3>${movie.title || movie.name}</h3>
+    <p>${movie.overview}</p>
+  `;
+  card.appendChild(overlay);
+
+  card.addEventListener('click', () => openModal(movie));
+
+  return card;
+}
+
+function openModal(movie) {
+  document.getElementById('modal-title').textContent = movie.title || movie.name;
+  document.getElementById('modal-poster').src = IMAGE_BASE + movie.poster_path;
+  document.getElementById('modal-date').textContent = movie.release_date || movie.first_air_date;
+  document.getElementById('modal-rating').textContent = movie.vote_average;
+  document.getElementById('modal-overview').textContent = movie.overview;
+
+  modal.style.display = 'flex';
+}
 
 closeModal.addEventListener('click', () => {
   modal.style.display = 'none';
 });
 
 window.addEventListener('click', (e) => {
-  if (e.target === modal) {
-    modal.style.display = 'none';
+  if (e.target === modal) modal.style.display = 'none';
+});
+
+async function fetchMovies(type, page = 1) {
+  const url = getURL(`/discover/${type}`, {
+    page,
+    with_genres: currentGenre,
+    with_original_language: currentLanguage
+  });
+  const res = await fetch(url);
+  const data = await res.json();
+  return data.results;
+}
+
+async function showMovies() {
+  const movies = await fetchMovies(currentType, currentPage);
+  movies.forEach(movie => {
+    if (movie.poster_path) {
+      const card = createMovieCard(movie);
+      movieContainer.appendChild(card);
+    }
+  });
+}
+
+async function showRandomMovie() {
+  const url = getURL(`/discover/${currentType}`, {
+    with_genres: currentGenre,
+    with_original_language: currentLanguage
+  });
+  const res = await fetch(url);
+  const data = await res.json();
+  const randomMovie = data.results[Math.floor(Math.random() * data.results.length)];
+
+  if (randomMovie) {
+    randomSection.innerHTML = `
+      <img src="${IMAGE_BASE + randomMovie.poster_path}" alt="Poster">
+      <h2>${randomMovie.title || randomMovie.name}</h2>
+      <p>${randomMovie.overview}</p>
+    `;
   }
+}
+
+topRatedButton.addEventListener('click', async () => {
+  movieContainer.innerHTML = '';
+  currentPage = 1;
+  const url = getURL(`/${currentType}/top_rated`, {
+    page: currentPage,
+    with_original_language: currentLanguage
+  });
+  const res = await fetch(url);
+  const data = await res.json();
+  data.results.forEach(movie => {
+    if (movie.poster_path) {
+      const card = createMovieCard(movie);
+      movieContainer.appendChild(card);
+    }
+  });
+});
+
+randomButton.addEventListener('click', () => {
+  showRandomMovie();
+});
+
+loadMoreButton.addEventListener('click', () => {
+  currentPage++;
+  showMovies();
+});
+
+typeSelect.addEventListener('change', (e) => {
+  currentType = e.target.value;
+  currentPage = 1;
+  movieContainer.innerHTML = '';
+  showMovies();
+});
+
+genreSelect.addEventListener('change', (e) => {
+  currentGenre = e.target.value;
+  currentPage = 1;
+  movieContainer.innerHTML = '';
+  showMovies();
+});
+
+languageSelect.addEventListener('change', (e) => {
+  currentLanguage = e.target.value;
+  currentPage = 1;
+  movieContainer.innerHTML = '';
+  showMovies();
 });
 
 // Initial load
-fetchMovies();
+showMovies();
